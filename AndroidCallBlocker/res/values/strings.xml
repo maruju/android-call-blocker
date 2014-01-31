@@ -4,5 +4,8 @@
     <string name="app_name">AndroidCallBlocker</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="confirm_call">%1$sへ発信します</string>
+    <string name="accept_call">許可</string>
+    <string name="reject_call">拒否</string>
 
 </resources>

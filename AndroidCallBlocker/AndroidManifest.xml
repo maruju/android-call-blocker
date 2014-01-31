@@ -8,6 +8,8 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:allowBackup="true"
@@ -28,6 +30,7 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
             </intent-filter>
         </receiver>
+        <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:name="ConfirmActivity"></activity>
     </application>
 
 </manifest>
