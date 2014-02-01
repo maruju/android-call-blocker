@@ -7,5 +7,8 @@
     <string name="confirm_call">%1$sへ発信します</string>
     <string name="accept_call">許可</string>
     <string name="reject_call">拒否</string>
+    <string name="always_accept_call">常に許可</string>
+    <string name="description_app_list">ロングタップで削除します</string>
+    <string name="title_accept_app_list">許可アプリリスト</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
@@ -31,6 +32,8 @@ public class ConfirmActivity extends FragmentActivity implements DialogInterface
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
+		case DialogInterface.BUTTON_POSITIVE:
+			updateDatabase();
 		case DialogInterface.BUTTON_NEUTRAL:
 			acceptCall();
 			break;
@@ -43,6 +46,13 @@ public class ConfirmActivity extends FragmentActivity implements DialogInterface
 	private void acceptCall() {
 		Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", getIntent().getStringExtra(EXTRA_PHONE_NUMBER), null));
 		startActivityForResult(callIntent, 0);
+	}
+
+	private void updateDatabase() {
+		String packageName = getIntent().getStringExtra(EXTRA_PACKAGE_NAME);
+		DbAdapter dbAdapter = new DbAdapter(getApplicationContext());
+
+		dbAdapter.addAcceptApp(packageName);
 	}
 
 	@Override
@@ -74,8 +84,9 @@ public class ConfirmActivity extends FragmentActivity implements DialogInterface
 			Drawable applicationIcon;
 			CharSequence applicationName;
 			try {
-				applicationIcon = packageManager.getApplicationIcon(packageName);
-				applicationName = packageManager.getApplicationLabel(packageManager.getApplicationInfo(packageName, 0));
+				ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
+				applicationIcon = packageManager.getApplicationIcon(appInfo);
+				applicationName = packageManager.getApplicationLabel(appInfo);
 			} catch (NameNotFoundException e) {
 				return null;
 			}
@@ -85,6 +96,7 @@ public class ConfirmActivity extends FragmentActivity implements DialogInterface
 			.setIcon(applicationIcon)
 			.setTitle(applicationName)
 			.setMessage(getString(R.string.confirm_call, phoneNumber))
+			.setPositiveButton(R.string.always_accept_call, onClickListener)
 			.setNeutralButton(R.string.accept_call, onClickListener)
 			.setNegativeButton(R.string.reject_call, onClickListener)
 			.create();

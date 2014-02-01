@@ -36,10 +36,13 @@ public class CallBlockReceiver extends BroadcastReceiver {
 		//自アプリからの発信も許可
 		String myPackageName = context.getPackageName();
 		String taskPackageName = taskInfo.baseActivity.getPackageName();
-		Log.d("mypackage", myPackageName);
-		Log.d("taskpackage", taskPackageName);
 		if (myPackageName.equals(taskPackageName)) {
-			Log.d("mypackage", "accept call");
+			return;
+		}
+
+		//リストにある通話先も許可
+		DbAdapter dbAdapter = new DbAdapter(context);
+		if (dbAdapter.checkApp(taskPackageName)) {
 			return;
 		}
 
